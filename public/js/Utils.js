@@ -34,17 +34,9 @@ function getMouse(event, touchobj){
 function onMouseStart(event){
   if(spritetouched) return;
 	//console.log("mouse start")
-  if(spritetouched_cancel_cb != null){
-    spritetouched_cancel_cb();
-    spritetouched_cancel_cb = null;
-  }
+ 
 	getMouse(event, undefined);
-	MousePos.sx = MousePos.x;
-	MousePos.sy = MousePos.y;
-	//document.addEventListener("mousemove", onMouseMove, false);
-    if(drag(MousePos.x, MousePos.y)){
-        return;
-    }
+
 	MousePos.touched = true;
 
 
@@ -68,22 +60,11 @@ function onTouchStart(event){
   if(spritetouched) return;
   
     event.preventDefault();
-
-    // onTouchStart for 2nd + finger
-    if(MousePos.touched){
-      onMultiTouchStart(event)
-      return;
-    }
+    
 	getMouse(event, event.changedTouches[0]);
-	MousePos.sx = MousePos.x;
-	MousePos.sy = MousePos.y;
-  MousePos.px = MousePos.x;
-  MousePos.py = MousePos.y;
-	//console.log(MousePos);
-	/*if(drag(MousePos.x, MousePos.y)){
-        return;
-    }*/
-    MousePos.touched = true;
+
+  spawnSquare();
+	
    
 } // end onTouchStart
 function onMultiTouchStart(event){

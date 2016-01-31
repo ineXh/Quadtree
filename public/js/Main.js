@@ -21,6 +21,12 @@ var Engine = (function(global) {
     addListeners();
 
     stage = new PIXI.Container();
+
+    var border = new PIXI.Graphics();
+    border.lineStyle(dim/30, 0x00, 1);
+    border.beginFill(0xAAAA00, 0.5);
+    border.drawRect(0, 0, stage_width, stage_height);
+    stage.addChild(border);
     
     gameobjects = new GameObjects();
 
