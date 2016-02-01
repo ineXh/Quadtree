@@ -1,4 +1,5 @@
 var objects = [];
+var tree;
 function GameObjects(){
 	this.init();
 }
@@ -21,7 +22,9 @@ GameObjects.prototype = {
         circle_green_texture = PIXI.Texture.fromImage("assets/green_circle.png");
         circle_blue_texture = PIXI.Texture.fromImage("assets/blue_circle.png");
 
-		assetsloaded = true;
+		tree = new QuadTree(stage_width, stage_height);
+        
+        assetsloaded = true;
 	},
 	update: function(time){
         
