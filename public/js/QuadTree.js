@@ -7,7 +7,7 @@ function QuadTree(width, height){
 }
 QuadTree.prototype = {
     init: function(width, height){
-        for(var depth = 3; depth < maxDepth; depth++){
+        for(var depth = 0; depth < maxDepth; depth++){
 	    	this.nodes[depth] = [];
 	    	for(var j = 0; j < getNumNode(depth); j++){
 	    		var node = new QuadNode(depth, j);
@@ -15,6 +15,10 @@ QuadTree.prototype = {
 	    	}
 	    }
     },
+    insert: function(item){
+    	getBound(item);
+    }
+
 } // end QuadTree
 
 function QuadNode(depth, depth_index){    
@@ -58,7 +62,6 @@ var getNumNode = function(depth){
         case 5: return 1024;
     }
 }
-
 var getDepth = function(index){
     if(index <= 0) return 0;
     if(index <= 4) return 1;
@@ -66,4 +69,12 @@ var getDepth = function(index){
     if(index <= 84) return 3;
     if(index <= 340) return 4;
     if(index <= 1634) return 5;
+}
+var getNodeWidth = function(depth){
+	switch(depth){
+		case 0: return stage_width / 1;
+		case 1: return stage_width / 2;
+		case 2: return stage_width / 4;
+		case 3: return stage_width / 8;
+	}
 }
