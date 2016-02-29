@@ -412,3 +412,17 @@ var wipe = function (obj){
             delete obj[p];
     }
 };
+
+var indexOf = function(arr, item) {
+                  for (var i=0, len=arr.length; i!=len ; i++) {
+                       if (arr[i] === item) { return i }
+                   }
+                   return -1;
+              };
+var spliceOne = function(arr, index) {
+                         var len=arr.length;
+                         if (!len) { return }
+                         while (index<len) { 
+                               arr[index] = arr[index+1]; index++ }
+                         arr.length--;
+                };              

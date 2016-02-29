@@ -1,5 +1,5 @@
 var maxDepth = 4;
-var maxChildren = 1;//8
+var maxChildren = 4;//8
 var deepWidth;
 var deepHeight;
 var deepDim;
@@ -55,6 +55,11 @@ QuadTree.prototype = {
            n.activate(item);
         })
     }, // end insert
+    remove: function(item){
+        item.nodes.forEach(function(node){
+            node.remove(item);
+        });
+    },
     retrieve: function(item){
         var out = []; var n = {};
         item.nodes.forEach(function(node){
@@ -84,6 +89,17 @@ QuadNode.prototype = {
     	this.y = Math.floor(this.depth_index/dim) * this.height;
     	//this.x = this.depth_index
         this.draw();
+    },
+    remove: function(item){
+        var index = this.children.indexOf(item);
+        if(index > -1){
+            spliceOne(this.children, index);
+        }
+        if(this.children.length < 1){
+            this.active = false;
+            this.update();
+        }
+        if(this.parent != null) this.parent.remove(item);
     },
     activate: function(item){
         this.children.push(item);
