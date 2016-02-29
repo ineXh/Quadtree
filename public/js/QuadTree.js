@@ -35,7 +35,7 @@ QuadTree.prototype = {
         }
       }*/
     },
-    insert: function(item){
+    insert: function(item){        
     	getBound(item);
         var i0 = Math.floor(item.left  / deepWidth);
         if(i0 < 0) i0 = 0;
@@ -103,6 +103,7 @@ QuadNode.prototype = {
         if(this.parent != null) this.parent.remove(item);
     },
     activate: function(item){
+        //console.log('activate')
         this.children.push(item);
         this.active = true;
         this.update();

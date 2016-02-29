@@ -51,6 +51,7 @@ Square.prototype = {
 	    this.sprite.y = this.y;
 	},
 	released:function(){
+		if(!this.pressed || !spritetouched) return;
 		spritetouched = false;
 		this.pressed = false;
 		tree.insert(this);
