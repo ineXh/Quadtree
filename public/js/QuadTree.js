@@ -1,4 +1,4 @@
-var maxDepth = 5;
+var maxDepth = 4;
 var maxChildren = 1;//8
 var deepWidth;
 var deepHeight;
@@ -16,7 +16,10 @@ QuadTree.prototype = {
         for(var depth = 0; depth < maxDepth; depth++){
 	    	this.nodes[depth] = [];
 	    	for(var j = 0; j < getDepthNum(depth); j++){
-	    		var node = new QuadNode(depth, j);
+                var parent = (depth == 0) ?
+                        null :
+                        this.nodes[depth-1][getParentIndex(depth, j)];
+	    		var node = new QuadNode(depth, j, parent);
 	    		this.nodes[depth].push(node);
 	    	}
 	    }
@@ -41,22 +44,22 @@ QuadTree.prototype = {
         for(var i = i0; i <= i1 && i < deepDim; i++){
             for(var j = j0; j <= j1 && j < deepDim; j++){
                 var node = this.nodes[maxDepth-1][deepDim*j + i];
-                if(node == undefined) debugger;
                 item.nodes.push(node);
             }
         }
         item.nodes.forEach(function(n){
-            if(n == undefined) debugger;
+            n.children.push(item);
             n.active = true;
+            n.parent.active = true;
         })
-
-    }
+    } // end insert
 
 } // end QuadTree
 
-function QuadNode(depth, depth_index){
+function QuadNode(depth, depth_index, parent){
     this.depth = depth;
     this.depth_index = depth_index;
+    this.parent = parent;
     this.active = false;
     this.drawn = false;
     this.children = [];
@@ -64,12 +67,11 @@ function QuadNode(depth, depth_index){
 }
 QuadNode.prototype = {
     init: function(){
-    	var numNode = getDepthNum(this.depth);
-    	var x_elements = Math.sqrt(numNode);
-    	this.width = stage_width / x_elements;
-    	this.height = stage_height / x_elements;
-    	this.x = (this.depth_index % x_elements)  * stage_width / x_elements;
-    	this.y = Math.floor(this.depth_index/x_elements) * stage_height / x_elements;
+    	var dim = getDepthDim(this.depth);
+    	this.width = getNodeWidth(this.depth);
+    	this.height = getNodeHeight(this.depth);
+    	this.x = (this.depth_index % dim)  * this.width;
+    	this.y = Math.floor(this.depth_index/dim) * this.height;
     	//this.x = this.depth_index
         this.draw();
     },
@@ -97,7 +99,7 @@ QuadNode.prototype = {
         stage.addChild(this.container);
         this.drawn = true;
     },
-}
+} // end QuadNode
 var getDepthNum = function(depth){
     switch(depth){
         case 0: return 1;
@@ -126,8 +128,6 @@ var getDepth = function(index){
     if(index <= 340) return 4;
     if(index <= 1634) return 5;
 }
-
-
 var getNodeWidth = function(depth){
 	switch(depth){
 		case 0: return stage_width / 1;
@@ -147,4 +147,10 @@ var getNodeHeight = function(depth){
         case 4: return stage_height / 16;
         case 5: return stage_height / 32;
     }
+}
+var getParentIndex = function(depth, index){
+    var dim = getDepthDim(depth);
+    var row = Math.floor(index / dim / 2);
+    var col = Math.floor((index % dim) / 2);
+    return row*dim/2 + col;
 }

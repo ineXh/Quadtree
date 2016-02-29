@@ -6,8 +6,8 @@ Square.prototype = {
 		//this.pos = new PVector(x,y);
 		this.x = x;
 		this.y = y;
-		this.width = 500;
-		this.height = 500;
+		this.width = 20;
+		this.height = 20;
 		this.draw();
 		this.nodes = [];
 	},
