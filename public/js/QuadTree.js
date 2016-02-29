@@ -9,7 +9,6 @@ function QuadTree(width, height){
     deepDim = getDepthDim(maxDepth-1);
     this.nodes = [];
     this.init(width, height);
-
 }
 QuadTree.prototype = {
     init: function(width, height){

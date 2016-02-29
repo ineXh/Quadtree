@@ -27,6 +27,9 @@ GameObjects.prototype = {
         assetsloaded = true;
 	},
 	update: function(time){
+        objects.forEach(function(s){
+            s.update();
+        })
         tree.update();
 	},
 }; // end GameObjects

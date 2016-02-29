@@ -45,7 +45,6 @@ function update(){
 
     if(assetsloaded){
         if(gameobjects != undefined) gameobjects.update(time);
-    	
     }
 }
 
