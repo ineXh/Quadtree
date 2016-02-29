@@ -14,7 +14,7 @@ QuadTree.prototype = {
     init: function(width, height){
         var root, parent;
         for(var depth = 0; depth < maxDepth; depth++){
-	    	this.nodes[depth] = [];            
+	    	this.nodes[depth] = [];
 	    	for(var j = 0; j < getDepthNum(depth); j++){
                 if(depth == 0){
                     var node = new QuadNode(depth, j, null, null);
@@ -22,7 +22,7 @@ QuadTree.prototype = {
                 }else{
                     parent = this.nodes[depth-1][getParentIndex(depth, j)];
                     var node = new QuadNode(depth, j, parent, root);
-                }                	    		
+                }
 	    		this.nodes[depth].push(node);
 	    	}
 	    }
@@ -34,7 +34,7 @@ QuadTree.prototype = {
         }
       }*/
     },
-    insert: function(item){        
+    insert: function(item){
     	getBound(item);
         var i0 = Math.floor(item.left  / deepWidth);
         if(i0 < 0) i0 = 0;
@@ -108,16 +108,18 @@ QuadNode.prototype = {
         this.update();
         if(this.parent != null) this.parent.activate(item);
     },
+    // Start from the leave, go up the branch until a branch has too many childrens, stop before the root
     retrieve: function(out, n){
         var node = this.parent;
         var child = this;
-        while(node.depth >= 1){
+        // Note: >= 1 will retrieve the root
+        while(node.depth > 1){
             if(node.children.length >= maxChildren){
                 node = child;
                 break;
             }else{
                 child = node;
-                node = node.parent;                   
+                node = node.parent;
             }
         }
         if(node == undefined) debugger;

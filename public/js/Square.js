@@ -10,8 +10,8 @@ Square.prototype = {
 		this.y = y;
 		this.vx = 0;//Math.random()*width/40;
 		this.vy = 0;//Math.random()*height/40;
-		this.width = 20;
-		this.height = 20;
+		this.width = 100;
+		this.height = 100;
 		this.r = this.width/2;
 		this.id = square_id++;
 		this.draw();
@@ -21,18 +21,29 @@ Square.prototype = {
 		this.x += this.vx;
 		this.y += this.vy;
 		this.stayinBorder();
-		this.sprite.x = this.x;
-	    this.sprite.y = this.y;
+		this.container.x = this.x;
+	    this.container.y = this.y;
 	},
 	draw: function(){
+		this.container = new PIXI.Container();
 		this.sprite = new PIXI.Sprite(square_blue_texture);
 	    this.sprite.anchor.x = 0.5;
 	    this.sprite.anchor.y = 0.5;
+	    this.sprite.x = 0;
+	    this.sprite.y = 0;
 	    this.scale =  (this.width) / this.sprite.width;
 	    this.sprite.scale.set(this.scale);
-	    stage.addChild(this.sprite);
-	    this.sprite.x = this.x;
-	    this.sprite.y = this.y;
+	    this.container.addChild(this.sprite);
+
+		var text = new PIXI.Text("" + this.id, {font: '32px Arial', fill: 'red'})
+        text.x = 0;
+        text.y = 0;
+        this.container.addChild(text);
+
+        stage.addChild(this.container);
+
+	    this.container.x = this.x;
+	    this.container.y = this.y;
 	    var move = this.move;
 	    var press = this.press;
 	    var release = this.release;
@@ -58,8 +69,8 @@ Square.prototype = {
         }
 		this.x = MousePos.x;
 		this.y = MousePos.y;
-		this.sprite.x = this.x;
-	    this.sprite.y = this.y;
+		this.container.x = this.x;
+	    this.container.y = this.y;
 	},
 	release:function(){
 		if(!this.pressed || !spritetouched) return;
