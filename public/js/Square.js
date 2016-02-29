@@ -3,8 +3,12 @@ function Square(x,y){
 }
 Square.prototype = {
 	init: function(x,y){
-		this.pos = new PVector(x,y);
+		//this.pos = new PVector(x,y);
+		this.x = x;
+		this.y = y;
 		this.draw();
+		this.width = 20;
+		this.height = 20;
 	},
 	draw: function(){
 		this.sprite = new PIXI.Sprite(square_blue_texture);
@@ -13,8 +17,8 @@ Square.prototype = {
 	    this.scale =  (20) / this.sprite.width;
 	    this.sprite.scale.set(this.scale);
 	    stage.addChild(this.sprite);
-	    this.sprite.x = this.pos.x;
-	    this.sprite.y = this.pos.y;
+	    this.sprite.x = this.x;
+	    this.sprite.y = this.y;
 	    var moved = this.moved;
 	    var pressed = this.pressed;
 	    var released = this.released;
@@ -29,7 +33,6 @@ Square.prototype = {
 	pressed:function(){
 		spritetouched = true;
 		this.pressed = true;
-
 	},
 	moved: function(event){
 	if(!this.pressed) return;
@@ -38,13 +41,14 @@ Square.prototype = {
         }else if(event.type == "touchmove"){
             getMouse(event.data.originalEvent, event.data.originalEvent.changedTouches[0]);
         }
-		this.pos.x = MousePos.x;
-		this.pos.y = MousePos.y;
-		this.sprite.x = this.pos.x;
-	    this.sprite.y = this.pos.y;
+		this.x = MousePos.x;
+		this.y = MousePos.y;
+		this.sprite.x = this.x;
+	    this.sprite.y = this.y;
 	},
 	released:function(){
 		spritetouched = false;
 		this.pressed = false;
+		getBound(this);
 	}
 }

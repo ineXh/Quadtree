@@ -11,7 +11,7 @@ GameObjects.prototype = {
         .add('assets/green_circle.png')
         .add('assets/green_square.png')
         .add('assets/red_circle.png')
-        .add('assets/red_square.png')		
+        .add('assets/red_square.png')
         .load(this.onassetsloaded.bind(this));
 	},
 	onassetsloaded : function(){
@@ -23,15 +23,16 @@ GameObjects.prototype = {
         circle_blue_texture = PIXI.Texture.fromImage("assets/blue_circle.png");
 
 		tree = new QuadTree(stage_width, stage_height);
-        
+
         assetsloaded = true;
 	},
 	update: function(time){
-        
+        tree.update();
 	},
 }; // end GameObjects
 
 var spawnSquare = function(){
     var square = new Square(MousePos.x, MousePos.y);
     objects.push(square)
+    tree.insert(square)
 }
