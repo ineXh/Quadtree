@@ -25,11 +25,11 @@ QuadTree.prototype = {
 	    }
     },
     update: function(){
-      for(var depth = 0; depth < maxDepth; depth++){
+      /*for(var depth = 0; depth < maxDepth; depth++){
         for(var j = 0; j < this.nodes[depth].length; j++){
             this.nodes[depth][j].update();
         }
-      }
+      }*/
     },
     insert: function(item){
     	getBound(item);
@@ -48,9 +48,7 @@ QuadTree.prototype = {
             }
         }
         item.nodes.forEach(function(n){
-            n.children.push(item);
-            n.active = true;
-            n.parent.active = true;
+           n.activate(item);
         })
     } // end insert
 
@@ -75,6 +73,12 @@ QuadNode.prototype = {
     	//this.x = this.depth_index
         this.draw();
     },
+    activate: function(item){
+        this.children.push(item);
+        this.active = true;
+        this.update();
+        if(this.parent != null) this.parent.activate(item);
+    },
     update: function(){
         if(this.active && !this.drawn){
             stage.addChild(this.container);
@@ -87,7 +91,7 @@ QuadNode.prototype = {
     draw: function(){
         this.container = new PIXI.Container();
         var grid = new PIXI.Graphics();
-        grid.lineStyle(width/500, 0x0000FF, 1);
+        grid.lineStyle(width/500, 0xFFA500, 1);
         this.container.x = this.x;
         this.container.y = this.y;
         grid.drawRect(0, 0, this.width, this.height);
@@ -96,8 +100,8 @@ QuadNode.prototype = {
         text.y = 0;
         this.container.addChild(text);
         this.container.addChild(grid);
-        stage.addChild(this.container);
-        this.drawn = true;
+        //stage.addChild(this.container);
+        //this.drawn = true;
     },
 } // end QuadNode
 var getDepthNum = function(depth){
