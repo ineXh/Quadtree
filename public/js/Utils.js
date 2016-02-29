@@ -34,7 +34,7 @@ function getMouse(event, touchobj){
 function onMouseStart(event){
   if(spritetouched) return;
 	//console.log("mouse start")
- 
+
 	getMouse(event, undefined);
 
 	MousePos.touched = true;
@@ -58,18 +58,16 @@ function onMouseUp(event){
 }
 function onTouchStart(event){
   if(spritetouched) return;
-  
-    event.preventDefault();
-    
-	getMouse(event, event.changedTouches[0]);
 
+  event.preventDefault();
+	getMouse(event, event.changedTouches[0]);
+  console.log('spawnSquare')
   spawnSquare();
-	
-   
+
 } // end onTouchStart
 function onMultiTouchStart(event){
   if(MousePos.touched) MousePos.multitouched = true;
-  
+
 }
 function onTouchMove(event){
     event.preventDefault();
@@ -81,7 +79,7 @@ function onTouchMove(event){
     //stage.x -= MousePos.px - MousePos.x;
     //stage.y -= MousePos.py - MousePos.y;
     onMultiTouchMove(event);
-    
+
 } // end onTouchMove
 function onMultiTouchMove(event){
   if(!MousePos.multitouched) return;

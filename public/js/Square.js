@@ -27,11 +27,13 @@ Square.prototype = {
 		this.sprite.on('touchend'       	, released.bind(this));
 	},
 	pressed:function(){
+		spritetouched = true;
 		this.pressed = true;
+
 	},
-	moved: function(event){	
+	moved: function(event){
 	if(!this.pressed) return;
-		if(event.type == "mousemove"){            
+		if(event.type == "mousemove"){
             getMouse(event, undefined);
         }else if(event.type == "touchmove"){
             getMouse(event.data.originalEvent, event.data.originalEvent.changedTouches[0]);
@@ -42,6 +44,7 @@ Square.prototype = {
 	    this.sprite.y = this.pos.y;
 	},
 	released:function(){
+		spritetouched = false;
 		this.pressed = false;
 	}
 }
