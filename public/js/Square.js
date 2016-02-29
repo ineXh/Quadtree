@@ -9,6 +9,7 @@ Square.prototype = {
 		this.draw();
 		this.width = 20;
 		this.height = 20;
+		this.nodes = [];
 	},
 	draw: function(){
 		this.sprite = new PIXI.Sprite(square_blue_texture);

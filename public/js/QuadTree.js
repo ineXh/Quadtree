@@ -1,9 +1,15 @@
-var maxDepth = 4;
+var maxDepth = 3;
 var maxChildren = 1;//8
-
+var deepWidth;
+var deepHeight;
+var deepDim;
 function QuadTree(width, height){
+    deepWidth = getNodeWidth(maxDepth-1);
+    deepHeight = getNodeHeight(maxDepth-1);
+    deepDim = getDepthDim(maxDepth-1);
     this.nodes = [];
     this.init(width, height);
+
 }
 QuadTree.prototype = {
     init: function(width, height){
@@ -24,9 +30,22 @@ QuadTree.prototype = {
     },
     insert: function(item){
     	getBound(item);
-        var i0 = Math.floor(item.left / getNodeWidth(maxDepth-1));
-        var j0 = Math.floor(item.top / getNodeWidth(maxDepth-1));
-        this.nodes[maxDepth-1][getDepthDim(maxDepth-1)*j0 + i0].active = true;
+        var i0 = Math.floor(item.left  / deepWidth);
+        var j0 = Math.floor(item.top   / deepHeight);
+        var i1 = Math.floor(item.right / deepWidth);
+        var j1 = Math.floor(item.bot   / deepHeight);
+        item.nodes.length = 0;
+        item.nodes.push(this.nodes[maxDepth-1][deepDim*j0 + i0]);
+        if(i0 != i1)
+            item.nodes.push(this.nodes[maxDepth-1][deepDim*j0 + i1]);
+        if(j0 != j1)
+            item.nodes.push(this.nodes[maxDepth-1][deepDim*j1 + i0]);
+        if(i0 != i1 && j0 != j1)
+            item.nodes.push(this.nodes[maxDepth-1][deepDim*j1 + i1]);
+        item.nodes.forEach(function(n){
+            n.active = true;
+        })
+
     }
 
 } // end QuadTree
@@ -111,5 +130,17 @@ var getNodeWidth = function(depth){
 		case 1: return stage_width / 2;
 		case 2: return stage_width / 4;
 		case 3: return stage_width / 8;
+        case 4: return stage_width / 16;
+        case 5: return stage_width / 32;
 	}
+}
+var getNodeHeight = function(depth){
+    switch(depth){
+        case 0: return stage_height / 1;
+        case 1: return stage_height / 2;
+        case 2: return stage_height / 4;
+        case 3: return stage_height / 8;
+        case 4: return stage_height / 16;
+        case 5: return stage_height / 32;
+    }
 }
