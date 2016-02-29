@@ -36,6 +36,7 @@ Square.prototype = {
 	pressed:function(){
 		spritetouched = true;
 		this.pressed = true;
+		tree.remove(this);
 	},
 	moved: function(event){
 	if(!this.pressed) return;
@@ -52,6 +53,7 @@ Square.prototype = {
 	released:function(){
 		spritetouched = false;
 		this.pressed = false;
-		getBound(this);
+		tree.insert(this);
+		//getBound(this);
 	}
 }

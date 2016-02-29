@@ -59,6 +59,7 @@ QuadTree.prototype = {
         item.nodes.forEach(function(node){
             node.remove(item);
         });
+        item.nodes.length = 0;
     },
     retrieve: function(item){
         var out = []; var n = {};
