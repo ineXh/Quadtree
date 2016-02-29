@@ -1,3 +1,4 @@
+var square_id = 0;
 function Square(x,y){
 	this.init(x,y);
 }
@@ -8,6 +9,7 @@ Square.prototype = {
 		this.y = y;
 		this.width = 20;
 		this.height = 20;
+		this.id = square_id++;
 		this.draw();
 		this.nodes = [];
 	},

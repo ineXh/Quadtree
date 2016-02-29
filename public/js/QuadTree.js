@@ -13,13 +13,17 @@ function QuadTree(width, height){
 }
 QuadTree.prototype = {
     init: function(width, height){
+        var root, parent;
         for(var depth = 0; depth < maxDepth; depth++){
-	    	this.nodes[depth] = [];
+	    	this.nodes[depth] = [];            
 	    	for(var j = 0; j < getDepthNum(depth); j++){
-                var parent = (depth == 0) ?
-                        null :
-                        this.nodes[depth-1][getParentIndex(depth, j)];
-	    		var node = new QuadNode(depth, j, parent);
+                if(depth == 0){
+                    var node = new QuadNode(depth, j, null, null);
+                    root = node;
+                }else{
+                    parent = this.nodes[depth-1][getParentIndex(depth, j)];
+                    var node = new QuadNode(depth, j, parent, root);
+                }                	    		
 	    		this.nodes[depth].push(node);
 	    	}
 	    }
@@ -50,14 +54,22 @@ QuadTree.prototype = {
         item.nodes.forEach(function(n){
            n.activate(item);
         })
-    } // end insert
-
+    }, // end insert
+    retrieve: function(item){
+        var out = []; var n = {};
+        item.nodes.forEach(function(node){
+            node.retrieve(out, n);
+        });
+        return out;
+        //console.log(out)
+    }, // end retrieve
 } // end QuadTree
 
-function QuadNode(depth, depth_index, parent){
+function QuadNode(depth, depth_index, parent, root){
     this.depth = depth;
     this.depth_index = depth_index;
     this.parent = parent;
+    this.root = root;
     this.active = false;
     this.drawn = false;
     this.children = [];
@@ -79,6 +91,26 @@ QuadNode.prototype = {
         this.update();
         if(this.parent != null) this.parent.activate(item);
     },
+    retrieve: function(out, n){
+        var node = this.parent;
+        var child = this;
+        while(node.depth >= 1){
+            if(node.children.length >= maxChildren){
+                node = child;
+                break;
+            }else{
+                child = node;
+                node = node.parent;                   
+            }
+        }
+        if(node == undefined) debugger;
+        node.children.forEach(function(c){
+            if(!n[c.id]){
+                n[c.id] = true;
+                out.push(c);
+            }
+        })
+    }, // end retrieve
     update: function(){
         if(this.active && !this.drawn){
             stage.addChild(this.container);
@@ -91,7 +123,7 @@ QuadNode.prototype = {
     draw: function(){
         this.container = new PIXI.Container();
         var grid = new PIXI.Graphics();
-        grid.lineStyle(width/500, 0xFFA500, 1);
+        grid.lineStyle(width/500, 0xD25349, 1);
         this.container.x = this.x;
         this.container.y = this.y;
         grid.drawRect(0, 0, this.width, this.height);
