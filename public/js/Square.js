@@ -6,16 +6,16 @@ Square.prototype = {
 		//this.pos = new PVector(x,y);
 		this.x = x;
 		this.y = y;
+		this.width = 500;
+		this.height = 500;
 		this.draw();
-		this.width = 20;
-		this.height = 20;
 		this.nodes = [];
 	},
 	draw: function(){
 		this.sprite = new PIXI.Sprite(square_blue_texture);
 	    this.sprite.anchor.x = 0.5;
 	    this.sprite.anchor.y = 0.5;
-	    this.scale =  (20) / this.sprite.width;
+	    this.scale =  (this.width) / this.sprite.width;
 	    this.sprite.scale.set(this.scale);
 	    stage.addChild(this.sprite);
 	    this.sprite.x = this.x;

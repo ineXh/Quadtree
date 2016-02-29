@@ -1,4 +1,4 @@
-var maxDepth = 3;
+var maxDepth = 5;
 var maxChildren = 1;//8
 var deepWidth;
 var deepHeight;
@@ -31,18 +31,22 @@ QuadTree.prototype = {
     insert: function(item){
     	getBound(item);
         var i0 = Math.floor(item.left  / deepWidth);
+        if(i0 < 0) i0 = 0;
         var j0 = Math.floor(item.top   / deepHeight);
+        if(j0 < 0) j0 = 0;
         var i1 = Math.floor(item.right / deepWidth);
         var j1 = Math.floor(item.bot   / deepHeight);
         item.nodes.length = 0;
-        item.nodes.push(this.nodes[maxDepth-1][deepDim*j0 + i0]);
-        if(i0 != i1)
-            item.nodes.push(this.nodes[maxDepth-1][deepDim*j0 + i1]);
-        if(j0 != j1)
-            item.nodes.push(this.nodes[maxDepth-1][deepDim*j1 + i0]);
-        if(i0 != i1 && j0 != j1)
-            item.nodes.push(this.nodes[maxDepth-1][deepDim*j1 + i1]);
+
+        for(var i = i0; i <= i1 && i < deepDim; i++){
+            for(var j = j0; j <= j1 && j < deepDim; j++){
+                var node = this.nodes[maxDepth-1][deepDim*j + i];
+                if(node == undefined) debugger;
+                item.nodes.push(node);
+            }
+        }
         item.nodes.forEach(function(n){
+            if(n == undefined) debugger;
             n.active = true;
         })
 
