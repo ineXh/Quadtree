@@ -34,7 +34,21 @@ QuadTree.prototype = {
         }
       }*/
     },
-    insert: function(item){
+    insert:function(item){
+        getBound(item);
+        gettreeBound(item);
+        item.nodes.length = 0;
+        for(var i = item.i0; i <= item.i1 && i < deepDim; i++){
+            for(var j = item.j0; j <= item.j1 && j < deepDim; j++){
+                var node = this.nodes[maxDepth-1][deepDim*j + i];
+                item.nodes.push(node);
+            }
+        }
+        item.nodes.forEach(function(n){
+           n.activate(item);
+        })
+    },
+    insert_all: function(item){
     	getBound(item);
         gettreeBound(item);
         //console.log('item.i1: ' + item.i1);
@@ -54,7 +68,7 @@ QuadTree.prototype = {
             }
         }
         item.nodes.forEach(function(n){
-           n.activate(item);
+           n.activate_all(item);
         })
     }, // end insert
     check:function(item){
@@ -116,11 +130,14 @@ QuadNode.prototype = {
         if(this.parent != null) this.parent.remove(item);
     },
     activate: function(item){
-        //console.log('activate')
         this.children.push(item);
         this.active = true;
         this.update();
-        if(this.parent != null) this.parent.activate(item);
+    },
+    activate_all: function(item){
+        //console.log('activate')
+        this.activate(item);
+        if(this.parent != null) this.parent.activate_all(item);
     },
     retrieve: function(out, n){
         this.children.forEach(function(c){
