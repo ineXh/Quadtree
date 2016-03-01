@@ -8,10 +8,10 @@ Square.prototype = {
 		//this.pos = new PVector(x,y);
 		this.x = x;
 		this.y = y;
-		this.vx = 0;//Math.random()*width/40;
-		this.vy = 0;//Math.random()*height/40;
-		this.width = 100;
-		this.height = 100;
+		this.vx = Math.random()*width/80;
+		this.vy = Math.random()*height/80;
+		this.width = 20;
+		this.height = 20;
 		this.r = this.width/2;
 		this.id = square_id++;
 		this.draw();
@@ -23,6 +23,10 @@ Square.prototype = {
 		this.stayinBorder();
 		this.container.x = this.x;
 	    this.container.y = this.y;
+	    if(!tree.check(this)){
+	    	tree.remove(this);
+	    	tree.insert(this);
+	    }
 	},
 	draw: function(){
 		this.container = new PIXI.Container();

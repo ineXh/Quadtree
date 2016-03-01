@@ -36,16 +36,19 @@ QuadTree.prototype = {
     },
     insert: function(item){
     	getBound(item);
-        var i0 = Math.floor(item.left  / deepWidth);
+        gettreeBound(item);
+        //console.log('item.i1: ' + item.i1);
+        //console.log('item.j1: ' + item.j1);
+        /*var i0 = Math.floor(item.left  / deepWidth);
         if(i0 < 0) i0 = 0;
         var j0 = Math.floor(item.top   / deepHeight);
         if(j0 < 0) j0 = 0;
         var i1 = Math.floor(item.right / deepWidth);
-        var j1 = Math.floor(item.bot   / deepHeight);
+        var j1 = Math.floor(item.bot   / deepHeight);*/
         item.nodes.length = 0;
 
-        for(var i = i0; i <= i1 && i < deepDim; i++){
-            for(var j = j0; j <= j1 && j < deepDim; j++){
+        for(var i = item.i0; i <= item.i1 && i < deepDim; i++){
+            for(var j = item.j0; j <= item.j1 && j < deepDim; j++){
                 var node = this.nodes[maxDepth-1][deepDim*j + i];
                 item.nodes.push(node);
             }
@@ -54,6 +57,10 @@ QuadTree.prototype = {
            n.activate(item);
         })
     }, // end insert
+    check:function(item){
+        getBound(item);
+        return checktreeBound(item);
+    },
     remove: function(item){
         item.nodes.forEach(function(node){
             node.remove(item);
@@ -64,6 +71,13 @@ QuadTree.prototype = {
         var out = []; var n = {};
         item.nodes.forEach(function(node){
             node.retrieve(out, n);
+        });
+        return out;
+    },
+    retrieve_all: function(item){
+        var out = []; var n = {};
+        item.nodes.forEach(function(node){
+            node.retrieve_all(out, n);
         });
         return out;
         //console.log(out)
@@ -108,8 +122,16 @@ QuadNode.prototype = {
         this.update();
         if(this.parent != null) this.parent.activate(item);
     },
-    // Start from the leave, go up the branch until a branch has too many childrens, stop before the root
     retrieve: function(out, n){
+        this.children.forEach(function(c){
+            if(!n[c.id]){
+                n[c.id] = true;
+                out.push(c);
+            }
+        })
+    },
+    // Start from the leave, go up the branch until a branch has too many childrens, stop before the root
+    retrieve_all: function(out, n){
         var node = this.parent;
         var child = this;
         // Note: >= 1 will retrieve the root
@@ -128,7 +150,7 @@ QuadNode.prototype = {
                 n[c.id] = true;
                 out.push(c);
             }
-        })
+        });
     }, // end retrieve
     update: function(){
         if(this.active && !this.drawn){
@@ -208,4 +230,31 @@ var getParentIndex = function(depth, index){
     var row = Math.floor(index / dim / 2);
     var col = Math.floor((index % dim) / 2);
     return row*dim/2 + col;
+}
+
+var gettreeBound = function(item){
+    item.i0 = Math.floor(item.left  / deepWidth);
+    if(item.i0 < 0) item.i0 = 0;
+    item.j0 = Math.floor(item.top   / deepHeight);
+    if(item.j0 < 0) item.j0 = 0;
+    item.i1 = Math.floor(item.right / deepWidth);
+    // deepDim = 8
+    if(item.i1 > deepDim) item.i1 = deepDim;
+    item.j1 = Math.floor(item.bot   / deepHeight);
+    if(item.j1 > deepDim) item.j1 = deepDim;
+}
+var checktreeBound = function(item){
+    var i0 = Math.floor(item.left  / deepWidth);
+    if(i0 < 0) i0 = 0;
+    if(i0 != item.i0) return false;
+    var j0 = Math.floor(item.top   / deepHeight);
+    if(j0 < 0) j0 = 0;
+    if(j0 != item.j0) return false;
+    var i1 = Math.floor(item.right / deepWidth);
+    if(i1 > deepDim) i1 = deepDim;
+    if(i1 != item.i1) return false;
+    var j1 = Math.floor(item.bot   / deepHeight);
+    if(j1 > deepDim) j1 = deepDim;
+    if(j1 != item.j1) return false;
+    return true;
 }
