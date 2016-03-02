@@ -8,15 +8,15 @@ Square.prototype = {
 		//this.pos = new PVector(x,y);
 		this.x = x;
 		this.y = y;
-		this.vx = 0;//Math.random()*width/120;
-		this.vy = 0;//Math.random()*height/120;
+		this.vx = Math.random()*width/120;
+		this.vy = Math.random()*height/120;
 		this.anchor = {x: 0.5, y: 0.5};
 		this.width = 20;
 		this.height = 20;
 		this.search_r = 100;
 		this.r = this.width/2;
 		this.id = square_id++;
-		
+		this.tinted = false;
 		this.nodes = [];
 
 		this.search_circle = new Circle(this);
@@ -24,6 +24,7 @@ Square.prototype = {
 		this.draw();
 	},
 	update: function(){
+		//this.sprite.tint = 0xFFFFFF;
 		this.x += this.vx;
 		this.y += this.vy;
 		this.stayinBorder();
@@ -45,14 +46,16 @@ Square.prototype = {
 	    this.sprite.y = 0;
 	    this.scale =  (this.width) / this.sprite.width;
 	    this.sprite.scale.set(this.scale);
-	    this.container.addChild(this.sprite);
+	    
 
 		var text = new PIXI.Text("" + this.id, {font: '32px Arial', fill: 'red'})
         text.x = 0;
         text.y = 0;
-        this.container.addChild(text);
+        
         	    
 	    this.container.addChild(this.search_circle.sprite);
+	    this.container.addChild(this.sprite);
+	    this.container.addChild(text);
 
         stage.addChild(this.container);
 

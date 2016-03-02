@@ -27,10 +27,26 @@ GameObjects.prototype = {
         assetsloaded = true;
 	},
 	update: function(time){
-        objects.forEach(function(s){
+        /*objects.forEach(function(s){
             s.update();
-        })
-        tree.update();
+        })*/
+        //tree.update();
+        for(var i = 0; i < objects.length; i++){
+            objects[i].update();
+            if(i == 0){
+                var targets = tree.retrieve(objects[i].search_circle);
+                var circle = objects[i].search_circle;
+                for(var j = 0; j < targets.length; j++){
+                    var target = targets[j];
+                    if(target == objects[i]) continue;                    
+                    if(intersectCR(circle.x,circle.y,circle.r,target.x,target.y,target.width,target.height)){
+                        target.sprite.tint = 0xFF0000;
+                    }else{
+                        target.sprite.tint = 0xFFF;
+                    }                    
+                }                
+            }
+        }
 	},
 }; // end GameObjects
 

@@ -42,7 +42,7 @@ Circle.prototype = {
 	    this.sprite.x = 0;
 	    this.sprite.y = 0;
 	    this.scale =  (this.width) / this.sprite.width;
-	    this.sprite.alpha = 0.2;
+	    this.sprite.alpha = 0.1;
 	    this.sprite.scale.set(this.scale);	    
 	},	
 } // end circle
