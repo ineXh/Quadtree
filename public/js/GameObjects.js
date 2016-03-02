@@ -39,4 +39,5 @@ var spawnSquare = function(){
     var square = new Square(MousePos.x, MousePos.y);
     objects.push(square)
     tree.insert(square)
+    tree.getNodes(square.search_circle);
 }

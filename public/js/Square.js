@@ -29,6 +29,7 @@ Square.prototype = {
 		this.stayinBorder();
 		this.container.x = this.x;
 	    this.container.y = this.y;
+	    this.search_circle.update();
 	    //if(this.pressed) return;
 	    if(!tree.check(this)){
 	    	tree.remove(this);
