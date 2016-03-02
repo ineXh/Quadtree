@@ -46,6 +46,7 @@ QuadTree.prototype = {
         }
     },
     insert:function(item){
+        //console.log('insert')
         this.getNodes(item);
         item.nodes.forEach(function(n){
            n.activate(item);
@@ -63,6 +64,7 @@ QuadTree.prototype = {
         return checktreeBound(item);
     },
     remove: function(item){
+        //console.log('remove')
         item.nodes.forEach(function(node){
             node.remove(item);
         });
@@ -118,6 +120,7 @@ QuadNode.prototype = {
     },
     activate: function(item){
         this.children.push(item);
+        if(this.children.length == 2) debugger;
         this.active = true;
         this.update();
     },

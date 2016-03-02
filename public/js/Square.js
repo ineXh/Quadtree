@@ -10,13 +10,18 @@ Square.prototype = {
 		this.y = y;
 		this.vx = 0;//Math.random()*width/120;
 		this.vy = 0;//Math.random()*height/120;
+		this.anchor = {x: 0.5, y: 0.5};
 		this.width = 20;
 		this.height = 20;
 		this.search_r = 100;
 		this.r = this.width/2;
 		this.id = square_id++;
-		this.draw();
+		
 		this.nodes = [];
+
+		this.search_circle = new Circle(this);
+
+		this.draw();
 	},
 	update: function(){
 		this.x += this.vx;
@@ -24,6 +29,7 @@ Square.prototype = {
 		this.stayinBorder();
 		this.container.x = this.x;
 	    this.container.y = this.y;
+	    //if(this.pressed) return;
 	    if(!tree.check(this)){
 	    	tree.remove(this);
 	    	tree.insert(this);
@@ -44,15 +50,8 @@ Square.prototype = {
         text.x = 0;
         text.y = 0;
         this.container.addChild(text);
-
-        this.circle = new PIXI.Sprite(circle_green_texture);
-        this.circle.anchor.x = 0.5;
-	    this.circle.anchor.y = 0.5;
-	    this.circle.x = 0;
-	    this.circle.y = 0;
-	    this.circle.scale.set(this.search_r * 2 / this.circle.width);
-	    this.circle.alpha = 0.2;
-	    this.container.addChild(this.circle);
+        	    
+	    this.container.addChild(this.search_circle.sprite);
 
         stage.addChild(this.container);
 
@@ -72,7 +71,7 @@ Square.prototype = {
 	press:function(){
 		spritetouched = true;
 		this.pressed = true;
-		tree.remove(this);
+		//tree.remove(this);
 	},
 	move: function(event){
 	if(!this.pressed) return;
@@ -85,12 +84,13 @@ Square.prototype = {
 		this.y = MousePos.y;
 		this.container.x = this.x;
 	    this.container.y = this.y;
+
 	},
 	release:function(){
 		if(!this.pressed || !spritetouched) return;
 		spritetouched = false;
 		this.pressed = false;
-		tree.insert(this);
+		//tree.insert(this);
 		//getBound(this);
 	},
 	stayinBorder : function(){

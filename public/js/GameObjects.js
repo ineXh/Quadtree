@@ -34,7 +34,8 @@ GameObjects.prototype = {
 	},
 }; // end GameObjects
 
-var spawnSquare = function(){    
+var spawnSquare = function(){   
+    console.log('spawn') 
     var square = new Square(MousePos.x, MousePos.y);
     objects.push(square)
     tree.insert(square)
