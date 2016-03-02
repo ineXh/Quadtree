@@ -16,9 +16,10 @@ Square.prototype = {
 		this.search_r = 100;
 		this.r = this.width/2;
 		this.id = square_id++;
-		this.tinted = false;
+		
 		this.nodes = [];
-
+		this.count = 0;
+		this.time = 30;
 		this.search_circle = new Circle(this);
 
 		this.draw();
@@ -32,6 +33,9 @@ Square.prototype = {
 	    this.container.y = this.y;
 	    this.search_circle.update();
 	    //if(this.pressed) return;
+	    this.count++;
+	    if(this.count < this.time) return;
+	    this.count = 0;
 	    if(!tree.check(this)){
 	    	tree.remove(this);
 	    	tree.insert(this);

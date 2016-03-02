@@ -14,13 +14,17 @@ Circle.prototype = {
 		this.r = 100;
 		this.width = this.r*2;
 		this.height = this.r*2;
-		
+		this.count = 0;
+		this.time = 30;
 		this.draw();
 		this.nodes = [];
 	},
 	update: function(){
 		this.x = this.parent.x;
 		this.y = this.parent.y;
+		this.count++;
+	    if(this.count < this.time) return;
+	    this.count = 0;
 		if(!tree.check(this)){
 	    	this.nodes.length = 0;
 	    	tree.getNodes(this);

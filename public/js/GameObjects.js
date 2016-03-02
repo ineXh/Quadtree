@@ -25,7 +25,7 @@ GameObjects.prototype = {
 		tree = new QuadTree(stage_width, stage_height);
 
         assetsloaded = true;
-        for(var i = 0; i < 200; i++) spawnSquare();
+        for(var i = 0; i < 20; i++) spawnSquare();
 	},
 	update: function(time){
         /*objects.forEach(function(s){
