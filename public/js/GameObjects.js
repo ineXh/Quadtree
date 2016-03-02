@@ -25,6 +25,7 @@ GameObjects.prototype = {
 		tree = new QuadTree(stage_width, stage_height);
 
         assetsloaded = true;
+        for(var i = 0; i < 200; i++) spawnSquare();
 	},
 	update: function(time){
         /*objects.forEach(function(s){
@@ -51,7 +52,7 @@ GameObjects.prototype = {
 }; // end GameObjects
 
 var spawnSquare = function(){   
-    console.log('spawn') 
+    //console.log('spawn') 
     var square = new Square(MousePos.x, MousePos.y);
     objects.push(square)
     tree.insert(square)

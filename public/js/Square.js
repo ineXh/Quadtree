@@ -55,7 +55,7 @@ Square.prototype = {
         	    
 	    this.container.addChild(this.search_circle.sprite);
 	    this.container.addChild(this.sprite);
-	    this.container.addChild(text);
+	    //this.container.addChild(text);
 
         stage.addChild(this.container);
 

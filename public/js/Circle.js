@@ -24,16 +24,7 @@ Circle.prototype = {
 		if(!tree.check(this)){
 	    	this.nodes.length = 0;
 	    	tree.getNodes(this);
-	    }
-		/*this.x += this.vx;
-		this.y += this.vy;
-		this.stayinBorder();
-		this.container.x = this.x;
-	    this.container.y = this.y;
-	    if(!tree.check(this)){
-	    	tree.remove(this);
-	    	tree.insert(this);
-	    }*/
+	    }		
 	},
 	draw: function(){		
 		this.sprite = new PIXI.Sprite(circle_green_texture);

@@ -120,9 +120,9 @@ QuadNode.prototype = {
     },
     activate: function(item){
         this.children.push(item);
-        //if(this.children.length == 2) debugger;
-        this.active = true;
-        this.update();
+        
+        //this.active = true;
+        //this.update();
     },
     activate_all: function(item){
         //console.log('activate')
