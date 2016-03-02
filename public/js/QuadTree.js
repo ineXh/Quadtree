@@ -34,9 +34,9 @@ QuadTree.prototype = {
         }
       }*/
     },
-    insert:function(item){
+    getNodes:function(item){
         getBound(item);
-        gettreeBound(item);
+        gettreeBound(item); // gets index of tree it overlaps
         item.nodes.length = 0;
         for(var i = item.i0; i <= item.i1 && i < deepDim; i++){
             for(var j = item.j0; j <= item.j1 && j < deepDim; j++){
@@ -44,29 +44,16 @@ QuadTree.prototype = {
                 item.nodes.push(node);
             }
         }
+    },
+    insert:function(item){
+        this.getNodes(item);
         item.nodes.forEach(function(n){
            n.activate(item);
         })
     },
     insert_all: function(item){
-    	getBound(item);
-        gettreeBound(item);
-        //console.log('item.i1: ' + item.i1);
-        //console.log('item.j1: ' + item.j1);
-        /*var i0 = Math.floor(item.left  / deepWidth);
-        if(i0 < 0) i0 = 0;
-        var j0 = Math.floor(item.top   / deepHeight);
-        if(j0 < 0) j0 = 0;
-        var i1 = Math.floor(item.right / deepWidth);
-        var j1 = Math.floor(item.bot   / deepHeight);*/
-        item.nodes.length = 0;
+    	this.getNodes(item);
 
-        for(var i = item.i0; i <= item.i1 && i < deepDim; i++){
-            for(var j = item.j0; j <= item.j1 && j < deepDim; j++){
-                var node = this.nodes[maxDepth-1][deepDim*j + i];
-                item.nodes.push(node);
-            }
-        }
         item.nodes.forEach(function(n){
            n.activate_all(item);
         })

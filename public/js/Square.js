@@ -8,10 +8,11 @@ Square.prototype = {
 		//this.pos = new PVector(x,y);
 		this.x = x;
 		this.y = y;
-		this.vx = Math.random()*width/80;
-		this.vy = Math.random()*height/80;
+		this.vx = 0;//Math.random()*width/120;
+		this.vy = 0;//Math.random()*height/120;
 		this.width = 20;
 		this.height = 20;
+		this.search_r = 100;
 		this.r = this.width/2;
 		this.id = square_id++;
 		this.draw();
@@ -43,6 +44,15 @@ Square.prototype = {
         text.x = 0;
         text.y = 0;
         this.container.addChild(text);
+
+        this.circle = new PIXI.Sprite(circle_green_texture);
+        this.circle.anchor.x = 0.5;
+	    this.circle.anchor.y = 0.5;
+	    this.circle.x = 0;
+	    this.circle.y = 0;
+	    this.circle.scale.set(this.search_r * 2 / this.circle.width);
+	    this.circle.alpha = 0.2;
+	    this.container.addChild(this.circle);
 
         stage.addChild(this.container);
 
