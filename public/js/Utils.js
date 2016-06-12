@@ -62,7 +62,7 @@ function onTouchStart(event){
   event.preventDefault();
 	getMouse(event, event.changedTouches[0]);
   console.log('spawnSquare')
-  spawnSquare();
+  //spawnSquare();
 
 } // end onTouchStart
 function onMultiTouchStart(event){
@@ -422,7 +422,7 @@ var indexOf = function(arr, item) {
 var spliceOne = function(arr, index) {
                          var len=arr.length;
                          if (!len) { return }
-                         while (index<len) { 
+                         while (index<len) {
                                arr[index] = arr[index+1]; index++ }
                          arr.length--;
-                };              
+                };

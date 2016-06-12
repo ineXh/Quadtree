@@ -3,6 +3,8 @@ var Engine = (function(global) {
 	startTime = Date.now();
 	width 	= window.innerWidth;
 	height 	= window.innerHeight;
+    width = screen.availWidth;
+    height = screen.availHeight;
 
 	dim = (width < height) ? width : height;
 	big_dim = (width < height) ? height : width;
@@ -27,7 +29,7 @@ var Engine = (function(global) {
     border.beginFill(0xAAAAAA, 0.5);
     border.drawRect(0, 0, stage_width, stage_height);
     stage.addChild(border);
-    
+
     gameobjects = new GameObjects();
 
 

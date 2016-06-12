@@ -3,6 +3,7 @@ var maxChildren = 4;//8
 var deepWidth;
 var deepHeight;
 var deepDim;
+var tree_debug = true;
 function QuadTree(width, height){
     deepWidth = getNodeWidth(maxDepth-1);
     deepHeight = getNodeHeight(maxDepth-1);
@@ -120,9 +121,10 @@ QuadNode.prototype = {
     },
     activate: function(item){
         this.children.push(item);
-        
-        //this.active = true;
-        //this.update();
+        if(tree_debug){
+            this.active = true;
+            this.update();
+        }
     },
     activate_all: function(item){
         //console.log('activate')
