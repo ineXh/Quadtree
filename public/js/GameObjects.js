@@ -1,5 +1,6 @@
 var objects = [];
 var tree;
+var draw;
 function GameObjects(){
 	this.init();
 }
@@ -25,9 +26,10 @@ GameObjects.prototype = {
         circle_blue_texture = PIXI.Texture.fromImage("assets/blue_circle.png");
 
 		tree = new QuadTree(stage_width, stage_height);
+        draw = new Draw();
 
         assetsloaded = true;
-        for(var i = 0; i < 2; i++) spawnSquare();
+        //for(var i = 0; i < 2; i++) spawnSquare();
         for(var i = 0; i < 2; i++) spawnSquares();
 	},
 	update: function(time){
@@ -38,16 +40,17 @@ GameObjects.prototype = {
         for(var i = 0; i < objects.length; i++){
             objects[i].update();
             if(i == 0){
-                var targets = tree.retrieve(objects[i].search_circle);
-                var circle = objects[i].search_circle;
+                var targets = tree.retrieve(objects[i]);
+                //var targets = tree.retrieve(objects[i].search_circle);
+                //var circle = objects[i].search_circle;
                 for(var j = 0; j < targets.length; j++){
                     var target = targets[j];
                     if(target == objects[i]) continue;
-                    if(intersectCR(circle.x,circle.y,circle.r,target.x,target.y,target.width,target.height)){
+                    /*if(intersectCR(circle.x,circle.y,circle.r,target.x,target.y,target.width,target.height)){
                         target.sprite.tint = 0xFF0000;
                     }else{
                         target.sprite.tint = 0xFFFFFF;
-                    }
+                    }*/
                 }
             }
         }

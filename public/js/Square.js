@@ -76,9 +76,17 @@ Square.prototype = {
 		this.sprite.on('mouseup'        	, release.bind(this));
 		this.sprite.on('touchend'       	, release.bind(this));
 	},
-	press:function(){
+	press:function(event){
 		spritetouched = true;
-		this.pressed = true;
+        this.pressed = true;
+        if(event.type == "mousemove"){
+            getMouse(event, undefined);
+        }else if(event.type == "touchmove"){
+            getMouse(event.data.originalEvent, event.data.originalEvent.changedTouches[0]);
+        }
+        this.press_x = event.data.global.x - this.x;
+        this.press_y = event.data.global.y - this.y;
+        console.log('press_x ' + this.press_x + ' this.press_y ' + this.press_y)
 		//tree.remove(this);
 	},
 	move: function(event){
@@ -88,8 +96,8 @@ Square.prototype = {
         }else if(event.type == "touchmove"){
             getMouse(event.data.originalEvent, event.data.originalEvent.changedTouches[0]);
         }
-		this.x = MousePos.x;
-		this.y = MousePos.y;
+		this.x = MousePos.x - this.press_x;
+        this.y = MousePos.y - this.press_y;
 		this.container.x = this.x;
 	    this.container.y = this.y;
 

@@ -53,7 +53,7 @@ Squares.prototype = {
         this.sprite.scale.set(this.scale);
 
 
-        var text = new PIXI.Text("" + this.id, {font: '32px Arial', fill: 'red'})
+        var text = new PIXI.Text("" + this.id, {font: '32px Arial', fill: 'blue'})
         text.x = 0;
         text.y = 0;
 
@@ -102,7 +102,6 @@ Squares.prototype = {
         this.y = MousePos.y - this.press_y;
         this.container.x = this.x;
         this.container.y = this.y;
-
     },
     release:function(){
         if(!this.pressed || !spritetouched) return;
