@@ -197,6 +197,10 @@ function getBound(r){
 	if(r.anchor == undefined){
 		r.anchor = {x: 0.5, y: 0.5};
 	}
+  if(r.sprite.rotation != 0){
+    getBoundRot(r);
+    return;
+  }
 	//console.log(r)
 	r.right = (r.x + Math.abs(r.width)*(1-r.anchor.x));
 	//console.log(r.right)
@@ -204,6 +208,60 @@ function getBound(r){
 	r.bot = (r.y + Math.abs(r.height)*(1-r.anchor.y));
 	r.top = (r.y - Math.abs(r.height)*(r.anchor.y));
 }
+function getBoundRot(r){
+  var cx = r.x + r.anchor.x*r.width;
+  var cy = r.y + r.anchor.y*r.height;
+  var s = Math.sin(r.sprite.rotation);
+  var c = Math.cos(r.sprite.rotation);
+  var left = (r.x - Math.abs(r.width)*(r.anchor.x)) - cx;
+  var right = (r.x + Math.abs(r.width)*(1-r.anchor.x)) - cx;
+  var bot = (r.y + Math.abs(r.height)*(1-r.anchor.y)) - cy;
+  var top = (r.y - Math.abs(r.height)*(r.anchor.y)) - cy;
+  // top left
+  r.TLx = left*c - top*s + cx;
+  r.TLy = left*s + top*c + cy;
+  // top right
+  r.TRx = right*c - top*s + cx;
+  r.TRy = right*s + top*c + cy;
+  // bot left
+  r.BLx = left*c - bot*s + cx;
+  r.BLy = left*s + bot*s + cy;
+  // bot right
+  r.BRx = right*c - bot*s + cx;
+  r.BRy = right*s + bot*c + cy;
+
+  r.left =  (r.TLx < r.TRx) ? r.TLx : r.TRx;
+  r.left =  (r.left < r.BLx) ? r.left : r.BLx;
+  r.left =  (r.left < r.BRx) ? r.left : r.BRx;
+
+  r.right =  (r.TRx > r.TLx) ? r.TRx : r.TLx;
+  r.right =  (r.right > r.BLx) ? r.right : r.BLx;
+  r.right =  (r.right > r.BRx) ? r.right : r.BRx;
+
+  r.top =  (r.TLy < r.TRy) ? r.TLy : r.TRy;
+  r.top =  (r.top < r.BLy) ? r.top : r.BLy;
+  r.top =  (r.top < r.BRy) ? r.top : r.BRy;
+
+  r.bot =  (r.TRy > r.TLy) ? r.TRy : r.TLy;
+  r.bot =  (r.bot > r.BLy) ? r.bot : r.BLy;
+  r.bot =  (r.bot > r.BRy) ? r.bot : r.BRy;
+
+}
+function drawBound(r){
+  draw.clear();
+  getBoundRot(r);
+  draw.verline(r.left)
+  draw.verline(r.right)
+  draw.horline(r.top)
+  draw.horline(r.bot)
+}
+// for two rectangles, rotated
+function isIntersectingRect(r1, r2){
+
+}
+
+
+
 // for sprite
 function isIntersecting(r1, r2) {
 	// object 2 is Right of object 1?

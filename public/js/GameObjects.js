@@ -31,6 +31,12 @@ GameObjects.prototype = {
         assetsloaded = true;
         //for(var i = 0; i < 2; i++) spawnSquare();
         for(var i = 0; i < 2; i++) spawnSquares();
+        objects[0].x = 200;
+        objects[0].y = 400;
+        objects[0].sprite.rotation = 0.2
+        objects[0].update();
+
+
 	},
 	update: function(time){
         /*objects.forEach(function(s){
