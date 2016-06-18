@@ -32,11 +32,12 @@ GameObjects.prototype = {
         //for(var i = 0; i < 2; i++) spawnSquare();
         for(var i = 0; i < 2; i++) spawnSquares();
         objects[0].x = 200;
-        objects[0].y = 400;
+        objects[0].y = 250;
         objects[0].sprite.rotation = 0.2
         objects[0].update();
-
-
+        objects[1].x = 300;
+        objects[1].y = 500;
+        isIntersectingRect(objects[0], objects[1]);
 	},
 	update: function(time){
         /*objects.forEach(function(s){

@@ -197,10 +197,10 @@ function getBound(r){
 	if(r.anchor == undefined){
 		r.anchor = {x: 0.5, y: 0.5};
 	}
-  if(r.sprite.rotation != 0){
+  //if(r.sprite.rotation != 0){
     getBoundRot(r);
     return;
-  }
+  //}
 	//console.log(r)
 	r.right = (r.x + Math.abs(r.width)*(1-r.anchor.x));
 	//console.log(r.right)
@@ -225,12 +225,16 @@ function getBoundRot(r){
   r.TRy = right*s + top*c + cy;
   // bot left
   r.BLx = left*c - bot*s + cx;
-  r.BLy = left*s + bot*s + cy;
+  r.BLy = left*s + bot*c + cy;
   // bot right
   r.BRx = right*c - bot*s + cx;
   r.BRy = right*s + bot*c + cy;
 
-  r.left =  (r.TLx < r.TRx) ? r.TLx : r.TRx;
+  r.left = Math.min(r.TLx, r.TRx, r.BLx, r.BRx);
+  r.right = Math.max(r.TLx, r.TRx, r.BLx, r.BRx);
+  r.top = Math.min(r.TLy, r.TRy, r.BLy, r.BRy);
+  r.bot = Math.max(r.TLy, r.TRy, r.BLy, r.BRy);
+  /*r.left =  (r.TLx < r.TRx) ? r.TLx : r.TRx;
   r.left =  (r.left < r.BLx) ? r.left : r.BLx;
   r.left =  (r.left < r.BRx) ? r.left : r.BRx;
 
@@ -244,7 +248,7 @@ function getBoundRot(r){
 
   r.bot =  (r.TRy > r.TLy) ? r.TRy : r.TLy;
   r.bot =  (r.bot > r.BLy) ? r.bot : r.BLy;
-  r.bot =  (r.bot > r.BRy) ? r.bot : r.BRy;
+  r.bot =  (r.bot > r.BRy) ? r.bot : r.BRy;*/
 
 }
 function drawBound(r){
@@ -257,6 +261,19 @@ function drawBound(r){
 }
 // for two rectangles, rotated
 function isIntersectingRect(r1, r2){
+  axisx = []; axisy = [];
+  axisx[0] = r1.TRx - r1.TLx;
+  axisy[0] = r1.TRy - r1.TLy;
+  axisx[1] = r1.TRx - r1.BRx;
+  axisy[1] = r1.TRy - r1.BRy;
+  axisx[2] = r2.TLx - r2.BLx;
+  axisy[2] = r2.TLy - r2.BLy;
+  axisx[3] = r2.TLx - r2.TRx;
+  axisy[3] = r2.TLy - r2.TRy;
+
+  //draw.line(r1.TRx, r1.TRy, r1.TLx, r1.TLy);
+  //draw.line(r1.TRx, r1.TRy, r1.BRx, r1.BRy);
+  draw.line(r2.TLx, r2.TLy, r2.BLx, r2.BLy);
 
 }
 
