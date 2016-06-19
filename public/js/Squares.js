@@ -11,7 +11,7 @@ Squares.prototype = {
         this.y = y;
         this.vx = 0;//Math.random()*width/240;
         this.vy = 0;//Math.random()*height/240;
-        this.anchor = {x: 0.0, y: 0.0};
+        this.anchor = {x: 1, y: 0.0};
         this.width = 320;
         this.height = 80;
         this.search_r = 100;
@@ -76,6 +76,7 @@ Squares.prototype = {
         this.sprite.on('touchmove'          , move.bind(this));
         this.sprite.on('mouseup'            , release.bind(this));
         this.sprite.on('touchend'           , release.bind(this));
+        this.sprite.on('touchendoutside'    , release.bind(this));
     },
     press:function(event){
         spritetouched = true;

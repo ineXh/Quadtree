@@ -31,7 +31,7 @@ GameObjects.prototype = {
 
         assetsloaded = true;
         //for(var i = 0; i < 2; i++) spawnSquare();
-        for(var i = 0; i < 2; i++) spawnSquares();
+        for(var i = 0; i < 3; i++) spawnSquares();
         objects[0].x = 200;
         objects[0].y = 250;
         objects[0].sprite.rotation = PI/4;
@@ -40,6 +40,10 @@ GameObjects.prototype = {
         objects[1].y = 500;
         objects[1].sprite.rotation = PI*2.125;
         objects[1].update();
+        objects[2].x = 100;
+        objects[2].y = 200;
+        objects[2].sprite.rotation = -PI*1.25;
+        objects[2].update();
         //isIntersectingRect(objects[0], objects[1]);
         //isI(objects[0], objects[1]);
 	},
@@ -50,26 +54,41 @@ GameObjects.prototype = {
         //tree.update();
         for(var i = 0; i < objects.length; i++){
             objects[i].update();
-            if(i == 0){
+            //if(i == 0){
                 var targets = tree.retrieve(objects[i]);
                 //var targets = tree.retrieve(objects[i].search_circle);
                 //var circle = objects[i].search_circle;
+                var intersect = false;
                 for(var j = 0; j < targets.length; j++){
                     var target = targets[j];
                     if(target == objects[i]) continue;
-                    /*if(intersectCR(circle.x,circle.y,circle.r,target.x,target.y,target.width,target.height)){
-                        target.sprite.tint = 0xFF0000;
-                    }else{
-                        target.sprite.tint = 0xFFFFFF;
-                    }*/
+                    //console.log(targets)
+                    //console.log(i)
+                    if(isIntersectingRect(objects[i], target)){
+                        switch(i){
+                            case 0:
+                                objects[i].sprite.tint = 0xFF0000;
+                                break;
+                            case 1:
+                                objects[i].sprite.tint = 0x00FF00;
+                                break;
+                            case 2:
+                                objects[i].sprite.tint = 0x0000FF;
+                                break;
+                        }
+                        intersect = true;
+                    }
                 }
-            }
+                if(!intersect){
+                    objects[i].sprite.tint = 0xFFFFFF;
+                }
+            //}
         }
-        if(isIntersectingRect(objects[0], objects[1])){
+        /*if(isIntersectingRect(objects[0], objects[1])){
             objects[0].sprite.tint = 0xFF0000;
         }else{
             objects[0].sprite.tint = 0xFFFFFF;
-        }
+        }*/
 	},
 }; // end GameObjects
 

@@ -209,8 +209,8 @@ function getBound(r){
 	r.top = (r.y - Math.abs(r.height)*(r.anchor.y));
 }
 function getBoundRot(r){
-  var cx = r.x + r.anchor.x*r.width;
-  var cy = r.y + r.anchor.y*r.height;
+  var cx = r.x;// + r.anchor.x*r.width;
+  var cy = r.y;// + r.anchor.y*r.height;
   var s = Math.sin(r.sprite.rotation);
   var c = Math.cos(r.sprite.rotation);
   var left = (r.x - Math.abs(r.width)*(r.anchor.x)) - cx;
