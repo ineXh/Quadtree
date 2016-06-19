@@ -1,6 +1,7 @@
 var objects = [];
 var tree;
 var draw;
+var PI = Math.PI;
 function GameObjects(){
 	this.init();
 }
@@ -33,12 +34,12 @@ GameObjects.prototype = {
         for(var i = 0; i < 2; i++) spawnSquares();
         objects[0].x = 200;
         objects[0].y = 250;
-        objects[0].sprite.rotation = 0.0
+        objects[0].sprite.rotation = PI/4;
         objects[0].update();
         objects[1].x = 300;
         objects[1].y = 500;
         objects[1].update();
-        isIntersectingRect(objects[0], objects[1]);
+        //isIntersectingRect(objects[0], objects[1]);
         //isI(objects[0], objects[1]);
 	},
 	update: function(time){
@@ -62,6 +63,11 @@ GameObjects.prototype = {
                     }*/
                 }
             }
+        }
+        if(isIntersectingRect(objects[0], objects[1])){
+            objects[0].sprite.tint = 0xFF0000;
+        }else{
+            objects[0].sprite.tint = 0xFFFFFF;
         }
 	},
 }; // end GameObjects

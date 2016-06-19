@@ -299,6 +299,8 @@ function isIntersectingRect(r1, r2){
   axisX[1] = r1.TRx - r1.BRx;  axisY[1] = r1.TRy - r1.BRy;
   axisX[2] = r2.TLx - r2.BLx;  axisY[2] = r2.TLy - r2.BLy;
   axisX[3] = r2.TLx - r2.TRx;  axisY[3] = r2.TLy - r2.TRy;
+  //console.log(axisX)
+  //console.log(axisY)
 
   //draw.line(r1.TRx, r1.TRy, r1.TLx, r1.TLy);
   //draw.line(r1.TRx, r1.TRy, r1.BRx, r1.BRy);
@@ -328,12 +330,17 @@ function isIntersectingRect(r1, r2){
     }
     var minB = Math.min(scalar2[j][0],scalar2[j][1],scalar2[j][2],scalar2[j][3]);
     var maxB = Math.max(scalar2[j][0],scalar2[j][1],scalar2[j][2],scalar2[j][3]);
-    console.log('minA ' + minA + ' maxA ' + maxA);
-    console.log('minB ' + minB + ' maxB ' + maxB);
-    if((minB <= maxA) || (maxB >= minA)){
-      console.log('overlap at ' + j)
+    //console.log('minA ' + minA + ' maxA ' + maxA);
+    //console.log('minB ' + minB + ' maxB ' + maxB);
+    if((minB <= maxA) && (maxB >= minA)){
+      //console.log('overlap at ' + j)
+    }else{
+      //console.log('no collide')
+      return false;
     }
   }
+  //console.log('collide')
+  return true;
   //console.log(scalar)
   //console.log(scalar2)
 
