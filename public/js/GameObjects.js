@@ -38,6 +38,7 @@ GameObjects.prototype = {
         objects[0].update();
         objects[1].x = 300;
         objects[1].y = 500;
+        objects[1].sprite.rotation = PI*2.125;
         objects[1].update();
         //isIntersectingRect(objects[0], objects[1]);
         //isI(objects[0], objects[1]);

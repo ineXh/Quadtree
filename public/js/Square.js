@@ -110,8 +110,8 @@ Square.prototype = {
 		//getBound(this);
 	},
 	stayinBorder : function(){
-    if (this.x - this.r < 0) {
-      this.x = this.r;
+    if (this.left < 0) {
+      this.x = this.x - this.left;//this.r;
       this.vx *= -walldamp;
       return true;
     }

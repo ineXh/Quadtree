@@ -87,7 +87,7 @@ Squares.prototype = {
         }
         this.press_x = event.data.global.x - this.x;
         this.press_y = event.data.global.y - this.y;
-        console.log('press_x ' + this.press_x + ' this.press_y ' + this.press_y)
+        //console.log('press_x ' + this.press_x + ' this.press_y ' + this.press_y)
 
         //tree.remove(this);
     },
@@ -113,16 +113,20 @@ Squares.prototype = {
     stayinBorder : function(){
         getBound(this);
         if(this.left < 0){
-            this.x = Math.abs(this.width)*(this.anchor.x);
+            //this.x = Math.abs(this.width)*(this.anchor.x);
+            this.x -= this.left;//this.r;
         }
         if(this.right > stage_width){
-            this.x = stage_width - Math.abs(this.width)*(1-this.anchor.x);
+            //this.x = stage_width - Math.abs(this.width)*(1-this.anchor.x);
+            this.x += stage_width - this.right;
         }
         if(this.top < 0){
-            this.y = Math.abs(this.height)*(this.anchor.y);
+            //this.y = Math.abs(this.height)*(this.anchor.y);
+            this.y -= this.top;
         }
         if(this.bot > stage_height){
-            this.y = stage_height - Math.abs(this.height)*(1-this.anchor.y);
+            //this.y = stage_height - Math.abs(this.height)*(1-this.anchor.y);
+            this.y += stage_height - this.bot;
         }
     /*if (this.x - this.r < 0) {
       this.x = this.r;
