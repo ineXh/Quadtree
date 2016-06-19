@@ -260,20 +260,90 @@ function drawBound(r){
   draw.horline(r.bot)
 }
 // for two rectangles, rotated
+function isI(r1, r2){
+  var x10 = r1.x;
+  var y10 = r1.y;
+  var h1 = r1.height/2;
+  var w1 = r1.width/2;
+  var radius1 = Math.sqrt(h1*h1 + w1*w1);
+  var angle1 = Math.asin(h1/radius1);
+
+  var x20 = r2.x;
+  var y20 = r2.y;
+  var h2 = r2.height/2;
+  var w2 = r2.width/2;
+  var radius2 = Math.sqrt(h2*h2 + w2*w2);
+  var angle2 = Math.asin(h2/radius2);
+
+  x1 = []; y1 = []; x2 = []; y2= [];
+  x1[0] = x10 + radius1*Math.cos(r1.sprite.rotation - angle1);
+  console.log(r1)
+  console.log(x1)
+}
+
 function isIntersectingRect(r1, r2){
-  axisx = []; axisy = [];
-  axisx[0] = r1.TRx - r1.TLx;
-  axisy[0] = r1.TRy - r1.TLy;
-  axisx[1] = r1.TRx - r1.BRx;
-  axisy[1] = r1.TRy - r1.BRy;
-  axisx[2] = r2.TLx - r2.BLx;
-  axisy[2] = r2.TLy - r2.BLy;
-  axisx[3] = r2.TLx - r2.TRx;
-  axisy[3] = r2.TLy - r2.TRy;
+  x1 = []; y1 = []; x2 = []; y2= [];
+  x1[0] = r1.TLx; y1[0] = r1.TLy;
+  x1[1] = r1.TRx; y1[1] = r1.TRy;
+  x1[2] = r1.BLx; y1[2] = r1.BLy;
+  x1[3] = r1.BRx; y1[3] = r1.BRy;
+
+  x2[0] = r2.TLx; y2[0] = r2.TLy;
+  x2[1] = r2.TRx; y2[1] = r2.TRy;
+  x2[2] = r2.BLx; y2[2] = r2.BLy;
+  x2[3] = r2.BRx; y2[3] = r2.BRy;
+
+  axisX = []; axisY = []; axis = [];
+  scalar = []; scalar2 = [];
+  axisX[0] = r1.TRx - r1.TLx;  axisY[0] = r1.TRy - r1.TLy;
+  axisX[1] = r1.TRx - r1.BRx;  axisY[1] = r1.TRy - r1.BRy;
+  axisX[2] = r2.TLx - r2.BLx;  axisY[2] = r2.TLy - r2.BLy;
+  axisX[3] = r2.TLx - r2.TRx;  axisY[3] = r2.TLy - r2.TRy;
 
   //draw.line(r1.TRx, r1.TRy, r1.TLx, r1.TLy);
   //draw.line(r1.TRx, r1.TRy, r1.BRx, r1.BRy);
-  draw.line(r2.TLx, r2.TLy, r2.BLx, r2.BLy);
+  //draw.line(r2.TLx, r2.TLy, r2.BLx, r2.BLy);
+  //draw.line(r2.TLx, r2.TLy, r2.TRx, r2.TRy);
+
+  // compare every point to an axis
+  for(var j = 0; j < 4; j++){
+    scalar[j] = [];
+    scalar2[j] = [];
+    for(var i = 0; i < 4; i++){
+      var axis = (x1[i]*axisX[j] + y1[i]*axisY[j]) /
+                  (axisX[j]*axisX[j] + axisY[j]*axisY[j]);
+      var X = axis*axisX[j];
+      var Y = axis*axisY[j];
+      scalar[j][i] = X*axisX[j] + Y*axisY[j];
+      //scalar[j*4+i] = X*axisX[j] + Y*axisY[j];
+    }
+    var minA = Math.min(scalar[j][0],scalar[j][1],scalar[j][2],scalar[j][3]);
+    var maxA = Math.max(scalar[j][0],scalar[j][1],scalar[j][2],scalar[j][3]);
+    for(var i = 0; i < 4; i++){
+      var axis = (x2[i]*axisX[j] + y2[i]*axisY[j]) /
+                  (axisX[j]*axisX[j] + axisY[j]*axisY[j]);
+      var X = axis*axisX[j];
+      var Y = axis*axisY[j];
+      scalar2[j][i] = X*axisX[j] + Y*axisY[j];
+    }
+    var minB = Math.min(scalar2[j][0],scalar2[j][1],scalar2[j][2],scalar2[j][3]);
+    var maxB = Math.max(scalar2[j][0],scalar2[j][1],scalar2[j][2],scalar2[j][3]);
+    console.log('minA ' + minA + ' maxA ' + maxA);
+    console.log('minB ' + minB + ' maxB ' + maxB);
+    if((minB <= maxA) || (maxB >= minA)){
+      console.log('overlap at ' + j)
+    }
+  }
+  //console.log(scalar)
+  //console.log(scalar2)
+
+  /*var axis[0] = (x1[0]*axisX[0] + y1[0]*axisY[0])
+  /
+              (axisX[0]*axisX[0] + axisY[0]*axisY[0]);
+  var X = axis0*axisX[0];
+  var Y = axis0*axisY[0];
+  scalar[0]*/
+
 
 }
 
